@@ -1,11 +1,41 @@
 import tensorflow as tf
 import numpy as np
+import utils
+import zipfile
+from collections import Counter
+
 
 VOCAB_SIZE = 50000
 BATCH_SIZE = 128
 EMBED_SIZE = 128
 SKIP_STEP=2000
 LEARNING_RATE = 1.0
+
+def read_data(file_path):
+    """ Read data into a list of tokens 
+    There should be 17,005,207 tokens
+    """
+    with zipfile.ZipFile(file_path) as f:
+        words = tf.compat.as_str(f.read(f.namelist()[0])).split() 
+        # tf.compat.as_str() converts the input into the string
+    return words
+
+def build_vocab(words, vocab_size):
+    """ Build vocabulary of VOCAB_SIZE most frequent words """
+    dictionary = dict()
+    count = [('UNK', -1)]
+    count.extend(Counter(words).most_common(vocab_size - 1))
+    index = 0
+    utils.make_dir('processed')
+    with open('processed/vocab_1000.tsv', "w") as f:
+        for word, _ in count:
+            dictionary[word] = index
+            if index < 1000:
+                f.write(word + "\n")
+            index += 1
+    index_dictionary = dict(zip(dictionary.values(), dictionary.keys()))
+    return dictionary, index_dictionary
+
 
 def word2vec():
 # Phase1: assemble your graph
