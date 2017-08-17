@@ -45,3 +45,25 @@ def build_vocabulary(words, vocab_size):
             index += 1
     index_dictionary = dict(zip(dictionary.values(), dictionary.keys()))
     return dictionary, index_dictionary
+    
+def build_co_matrix(words,vocab_size,dictionary):
+    """ Build co-occurrence matrix """
+    matrix=np.zeros()
+    for word in words:
+        
+        
+def svd():
+    with tf.name_scope("data"):
+        matrix=tf.placeholder()
+
+        embed_matrix=tf.svd(matrix)
+    
+    with tf.Session() as sess:
+        co_matrix=build_co_matrix()
+        embed_matri=sess.run([embed_matrix],feed_dict={matrix:co_matrix})
+    
+def main():
+    svd()
+
+if __name__ == '__main__':
+    main()        
