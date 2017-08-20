@@ -4,12 +4,13 @@ import os
 import zipfile
 import random
 from collections import Counter
+from tensorflow.contrib.tensorboard.plugins import projector
 
 
 VOCAB_SIZE = 10000
 BATCH_SIZE = 128
 EMBED_SIZE = 300
-DISPLAY_STEP=1000
+DISPLAY_STEP=2000
 TRAIN_STEPS=10000
 NUM_SAMPLED = 64    # Number of negative examples to sample.
 SKIP_WINDOW=3
@@ -32,7 +33,7 @@ def build_vocabulary(words, vocab_size):
     count.extend(Counter(words).most_common(vocab_size - 1))
     index = 0
     os.makedirs('processed')
-    with open('processed/vocab_1000.tsv', "w") as f:
+    with open('./processed/vocab_1000.tsv', "w") as f:
         for word, _ in count:
             dictionary[word] = index
             if index < 1000:
@@ -66,7 +67,7 @@ def get_batch(iterator, batch_size):
         yield center_batch, target_batch
         
 def process_data(vocab_size, batch_size, skip_window):
-    words = read_data("E:/MachineLearning/CS20SI/text8.zip")
+    words = read_data("./text8.zip")
     dictionary, _ = build_vocabulary(words, vocab_size)
     index_words = convert_words_to_index(words, dictionary)
     del words # to save memory
