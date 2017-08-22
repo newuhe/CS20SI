@@ -102,7 +102,7 @@ def word2vec(batch_gen):
 
     # Step 5: define the optimizer
     optimizer = tf.train.GradientDescentOptimizer(LEARNING_RATE).minimize(loss)
-    
+   
 # Phase2: ececute the computation
     with tf.Session() as sess:
         sess.run(tf.global_variables_initializer())
